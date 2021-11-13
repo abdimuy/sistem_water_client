@@ -5,6 +5,7 @@ import clientsServices from '../../services/waterAPI/clientsService';
 import { typeClient } from '../../services/waterAPI/contansts'
 import AutoComplete from '../../components/AutoComplete';
 import toast from 'react-hot-toast';
+import moment from 'moment';
 import {
   FormControl,
   Button,
@@ -64,8 +65,8 @@ const useStyles = makeStyles({
   }
 });
 
-const ChangeWaterConnection = ({ dataWaterConnection, idClient, listPaymentsToPay }) => {
-  console.log({ idClient })
+const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaymentsToPay }) => {
+  // console.log({ idClient })
   console.log({ listPaymentsToPay })
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState('');
@@ -81,12 +82,29 @@ const ChangeWaterConnection = ({ dataWaterConnection, idClient, listPaymentsToPa
     return !isOpen;
   });
 
-  const handleSubmit = (listPayments) => {
+  const handleSubmit = (idTimeConnection, listPayments) => {
     //order array by date
-    listPayments.sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
+    const newListPayments = listPayments.sort((a, b) => {
+      return a.order - b.order;
     });
     console.log({listPayments});
+    console.log({idTimeConnection});
+    const report = {
+      idTimeConnection,
+      idTypeReport: 1,
+      dateReport: moment().format('YYYY-MM-DD hh:mm:ss'),
+      transactionsArray: newListPayments 
+    }
+    console.log({report});
+    clientsServices.setReport(report)
+      .then(res => {
+        console.log({ res });
+        handleDialog();
+      })
+      .catch(err => {
+        console.log({ err });
+        setError(err.error);
+      })
   }
 
   return (
@@ -128,7 +146,7 @@ const ChangeWaterConnection = ({ dataWaterConnection, idClient, listPaymentsToPa
               Cancel
             </Button>
             <Button
-              onClick={() => handleSubmit(listPaymentsToPay)}
+              onClick={() => handleSubmit(idTimeConnection, listPaymentsToPay)}
               color="primary"
               variant='contained'
               disabled={listPaymentsToPay.length === 0}

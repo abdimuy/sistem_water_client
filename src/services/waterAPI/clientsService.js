@@ -161,6 +161,24 @@ const clientsServices = {
         reject('Error al obtener los datos');
       });
   }),
+  setReport: (bodyJSON) => new Promise((resolve, reject) => {
+    API.post(
+      ENTRYPOINTS.REPORTS,
+      bodyJSON,
+      {
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      }
+    )
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject('Al crear el reporte');
+      });
+  }),
 };
 
 export default clientsServices;

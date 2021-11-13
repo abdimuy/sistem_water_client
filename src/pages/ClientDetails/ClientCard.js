@@ -68,6 +68,7 @@ export default function ClientInfo({ clientData }) {
     dateConnection,
     latePayments,
     transactions,
+    idTimeConnection
   } = clientData;
   console.log({ latePayments });
 
@@ -225,7 +226,7 @@ export default function ClientInfo({ clientData }) {
         </CardContent>
         <Divider className={classes.divider} variant='fullWidth' />
         <CardActions className={classes.cardAction}>
-          <AddPayment listPaymentsToPay={listPaymentsToPay}/>
+          <AddPayment idTimeConnection={idTimeConnection} listPaymentsToPay={listPaymentsToPay}/>
         </CardActions>
       </Card>
     </>

@@ -10,6 +10,7 @@ const entrypoints = {
   LOGIN: 'login/',
   IS_AUTHENTICATED: 'is_authenticated/',
   LOGOUT: 'logout/',
+  REPORTS: 'reports/',
 }
 
 export default entrypoints;

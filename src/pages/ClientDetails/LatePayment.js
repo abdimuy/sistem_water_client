@@ -18,7 +18,6 @@ export default function BasicTable({ latePayments, setListPaymentsToPay }) {
 
   const [rows, setRows] = useState([...latePayments]);
   const [selected, setSelected] = React.useState([]);
-  console.log({ rows })
 
   useEffect(() => {
     createRows();
