@@ -1,12 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Typography } from '@material-ui/core';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { makeStyles } from '@material-ui/core/styles';
 import ReportTable from './ReportTable';
+import clientServices from '../../services/waterAPI/clientsService'
+import { Chip } from '@material-ui/core';
+import moment from 'moment';
 
 const Reports = () => {
 
   const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  const [transactions, setTransactions] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [error, setError] = useState('');
+
+  const handleGetTrasactions = () => {
+
+    clientServices.getTransactions(
+      moment(dateRange[0]).format('YYYY-MM-DD hh:mm:ss'),
+      moment(dateRange[1]).format('YYYY-MM-DD hh:mm:ss')
+    )
+      .then(res => {
+        console.log(res.body)
+        setTransactions(res.body)
+        setTotal(res.body.reduce((acc, cur) => acc + cur.amount, 0))
+      })
+      .catch(err => {
+        console.log(err)
+        setError(err.response.data.message)
+      })
+  };
+
+  useEffect(() => {
+    if(dateRange !== null){
+      handleGetTrasactions()
+    }
+  }, [dateRange]);
 
   const useStyles = makeStyles({
     root: {
@@ -43,7 +72,7 @@ const Reports = () => {
       justifyContent: 'flex-end'
     }
   });
-  
+
   const classes = useStyles();
 
   return (
@@ -61,8 +90,9 @@ const Reports = () => {
           onChange={setDateRange}
           value={dateRange}
         />
-        <ReportTable />
-        
+        <Chip size='medium' color='primary' label={`Total ingresos: $${total}`} style={{fontSize: 16, padding: '10px 15px'}}/>
+        <ReportTable transactions={transactions}/>
+
       </div>
     </div>
   );

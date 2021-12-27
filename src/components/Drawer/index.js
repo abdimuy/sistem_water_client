@@ -107,7 +107,7 @@ export default function MiniDrawer({ children }) {
       goTo: '/reports'
     },
     {
-      label: 'Reportes',
+      label: 'Otros',
       icon: <AssignmentIcon />,
       goTo: '/cobro'
     },
@@ -131,7 +131,7 @@ export default function MiniDrawer({ children }) {
 
   return (
     <div className={classes.root}>
-      <Toaster 
+      <Toaster
         position="bottom-right"
         reverseOrder={false}
       />
@@ -186,9 +186,14 @@ export default function MiniDrawer({ children }) {
               <ListItemText primary={item.label} />
             </ListItem>
           ))}
-          <IconButton onClick={handleLogout}>
-            <CancelIcon />
-          </IconButton>
+          <ListItem onClick={handleLogout}>
+            {/* <IconButton >
+            </IconButton> */}
+            <ListItemIcon >
+              <CancelIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Cerrar sesíon'} />
+          </ListItem>
         </List>
         {/* <Divider />
         <List>

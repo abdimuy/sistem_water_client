@@ -3,9 +3,9 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import clientsServices from '../../services/waterAPI/clientsService';
 
-export default function ComboBox({ setAutocompleteValue, idWaterConnection, listWaterConnectionsWithourClient }) {
+export default function ComboBox({ setAutocompleteValue, autoCompleteValue, idWaterConnection, listWaterConnectionsWithourClient }) {
 
-  const [autoCompleteValue, setAutoCompleteValue] = useState()
+  // const [autoCompleteValue, setAutoCompleteValue] = useState()
   console.log({listWaterConnectionsWithourClient})
   // const [listWaterConnections, setWaterConnections] = useState(listWaterConnectionsWithourClient || []);
 
@@ -14,16 +14,23 @@ export default function ComboBox({ setAutocompleteValue, idWaterConnection, list
   //   setFunction(waterConnections.body);
   // };
 
-  const getWaterConnectionClient = async (setFunction) => {
-    const waterConnection = await clientsServices.getWaterConnection(idWaterConnection);
-    console.log(waterConnection)
-    setFunction(waterConnection.body)
-  }
+  // const getWaterConnectionClient = async (setFunction) => {
+  //   const waterConnection = await clientsServices.getWaterConnection(idWaterConnection);
+  //   console.log(waterConnection)
+  //   setFunction(waterConnection.body)
+  // }
 
-  useEffect(() => {
-    getWaterConnectionClient(setAutoCompleteValue)
-    // getListWaterConnections(setWaterConnections);
-  }, [])
+  // useEffect(() => {
+  //   getWaterConnectionClient(setAutoCompleteValue)
+  //   // getListWaterConnections(setWaterConnections);
+  // }, [])
+  const handleExistValue = (value) => {
+    if (value !== undefined) {
+      return value
+    } else {
+      return ''
+    }
+  }
 
   return (
     <Autocomplete
@@ -34,7 +41,7 @@ export default function ComboBox({ setAutocompleteValue, idWaterConnection, list
       size='small'
       id="combo-box-demo"
       options={listWaterConnectionsWithourClient}
-      getOptionLabel={(option) => `${option.id} - ${option.street} ${option.houseNumber} ${option.colonia} - ${option.reference}`}
+      getOptionLabel={(option) => `${handleExistValue(option.id)} - ${handleExistValue(option.street)} ${handleExistValue(option.houseNumber)} ${handleExistValue(option.colonia)} - ${handleExistValue(option.reference)}`}
       // style={{ width: 300 }}
       fullWidth
       renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}

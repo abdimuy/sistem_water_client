@@ -96,7 +96,7 @@ const ChangeWaterConnection = ({ dataWaterConnection, idClient }) => {
   });
 
   useEffect(() => {
-    handleGetWaterConnectionsWithoutClient(setWaterConnectionsWithoutClient);
+    // handleGetWaterConnectionsWithoutClient(setWaterConnectionsWithoutClient);
   }, [])
 
   // useEffect(() => {

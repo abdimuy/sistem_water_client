@@ -55,6 +55,7 @@ const headCells = [
   { id: 'reference', numeric: false, disablePadding: false, label: 'Referencias' },
   { id: 'date', numeric: false, disablePadding: false, label: 'Fecha de conexión' },
   { id: 'typeClient', numeric: false, disablePadding: false, label: 'Tipo de cliente' },
+  { id: 'Pagos atrasados', numeric: true, disablePadding: true, label: 'Pagos atrasados' },
 ];
 
 function EnhancedTableHead(props) {
@@ -267,6 +268,16 @@ export default function EnhancedTable({ data }) {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
+  const contarPagosPendiendes = (pagos) => {
+    let count = 0;
+    pagos.forEach(pago => {
+      if (pago.typePayment === 'Pago atrasado') {
+        count++;
+      }
+    });
+    return count;
+  }
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -321,6 +332,7 @@ export default function EnhancedTable({ data }) {
                       <TableCell onClick={handleToWaterConnection} align="left">{row.reference}</TableCell>
                       <TableCell onClick={handleToWaterConnection} align="left">{moment(row.dateConnection).format('LL')}</TableCell>
                       <TableCell align="left">{row.typeClient}</TableCell>
+                      <TableCell align="left">{contarPagosPendiendes(row.latePayments)}</TableCell>
                     </TableRow>
                   );
                 })}

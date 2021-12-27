@@ -16,10 +16,6 @@ export default function MaterialUIPickers({ onInputChange }) {
   const handleDateConnectionChange = (date) => {
     setSelectedDateConnection(date);
     onInputChange({target: {
-      name: 'dateConnection',
-      value: date.format('YYYY-MM-DDTHH:mm:ss')
-    }});
-    onInputChange({target: {
       name: 'dateInitTime',
       value: date.format('YYYY-MM-DDTHH:mm:ss')
     }})

@@ -5,6 +5,8 @@ import clientsServices from '../../services/waterAPI/clientsService';
 import { typeClient } from '../../services/waterAPI/contansts'
 import AutoComplete from '../../components/AutoComplete';
 import toast from 'react-hot-toast';
+import Picker from './AddHidrantePicker';
+import moment from 'moment'
 import {
   FormControl,
   Button,
@@ -26,31 +28,35 @@ const initialState = {
   disabled: 0,
   idTypeClient: typeClient.HIDRANTE,
   idWaterConnection: null,
+  dateInitPayment: moment().format('YYYY-MM-DDTHH:mm:ss'),
+  dateStartPayment: moment().format('YYYY-MM-DDTHH:mm:ss'),
+  active: 1
 }
 
 const AddHidranteForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState(initialState)
+  const [waterConnections, setWaterConnections] = useState([]);
   const [selectedWaterConnection, setSelectedWaterConnection] = useState();
   const [error, setError] = useState('');
-  
+
   const handleSubmit = async (formDataSubmit) => {
     console.log(formDataSubmit);
     try {
       await clientsServices.setHidrante(formDataSubmit);
       console.log('Se ha subido con exito');
-      toast.success('Hidrante creado con exito', {duration: 5000});
+      toast.success('Hidrante creado con exito', { duration: 5000 });
       setFormData(initialState)
       setSelectedWaterConnection();
       setIsOpen(false);
-    } catch(err) {
+    } catch (err) {
       setError('Asegurece de ingresar todos los datos obligatorios al formulario')
       console.log(err);
     };
   };
 
   const handleDialog = () => setIsOpen(isOpen => {
-    if(isOpen) {
+    if (isOpen) {
       setFormData(initialState);
       setError('')
       setSelectedWaterConnection();
@@ -58,9 +64,19 @@ const AddHidranteForm = () => {
     return !isOpen;
   });
 
+  const handleGetWaterConnections = () => {
+    clientsServices.getWaterConnections()
+      .then(res => {
+        console.log(res.body);
+        setWaterConnections(res.body);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   useEffect(() => {
-    if(selectedWaterConnection) {
+    if (selectedWaterConnection) {
       setFormData(formData => ({
         ...formData,
         idWaterConnection: selectedWaterConnection.id
@@ -68,14 +84,18 @@ const AddHidranteForm = () => {
     };
   }, [selectedWaterConnection]);
 
+  useEffect(() => {
+    handleGetWaterConnections();
+  }, []);
+
   const handleInputChange = (event) => {
     const { value, name } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
   };
- 
+
   return (
     <div>
-      <div style={{display: 'flex', gap: '8px'}}>
+      <div style={{ display: 'flex', gap: '8px' }}>
         <Button
           variant='contained'
           color='primary'
@@ -86,8 +106,8 @@ const AddHidranteForm = () => {
         </Button>
       </div>
       <Dialog maxWidth='sm' fullWidth open={isOpen} onClose={handleDialog} aria-labelledby="form-dialog-title">
-      <div style={{padding: '25px'}}>
-          <Typography style={{padding: '20px'}} variant='h5' align='center'>
+        <div style={{ padding: '25px' }}>
+          <Typography style={{ padding: '20px' }} variant='h5' align='center'>
             Agregar hidrante
           </Typography>
           <DialogContent>
@@ -134,16 +154,17 @@ const AddHidranteForm = () => {
                 <MenuItem value={1}>Sí</MenuItem>
               </Select>
             </FormControl>
-            <Divider style={{margin: '25px 0'}} variant="fullWidth" />
+            <Divider style={{ margin: '25px 0' }} variant="fullWidth" />
             <DialogContentText>
               Elija una toma de agua
             </DialogContentText>
             <AutoComplete
+              listWaterConnectionsWithourClient={waterConnections}
               setAutocompleteValue={setSelectedWaterConnection}
               autoCompleteValue={selectedWaterConnection}
             />
-            
-            <Alert message='' isError error={error} isOpen={error} typeAlert='error'/>
+            <Picker onInputChange={handleInputChange} />
+            <Alert message='' isError error={error} isOpen={error} typeAlert='error' />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleDialog} color="secondary" variant='contained'>

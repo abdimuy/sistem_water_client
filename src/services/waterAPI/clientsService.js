@@ -3,9 +3,9 @@ import ENTRYPOINTS from './entrypoints';
 
 let axiosConfig = {
   headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      "Access-Control-Allow-Origin": "*",
-      withCredentials: true
+    'Content-Type': 'application/json;charset=UTF-8',
+    "Access-Control-Allow-Origin": "*",
+    withCredentials: true
   }
 };
 
@@ -33,7 +33,7 @@ const clientsServices = {
       });
   }),
   isAuthenticated: () => new Promise((resolve, reject) => {
-    API.get(ENTRYPOINTS.IS_AUTHENTICATED, {withCredentials: true})
+    API.get(ENTRYPOINTS.IS_AUTHENTICATED, { withCredentials: true })
       .then((response) => {
         resolve(response);
       })
@@ -73,13 +73,13 @@ const clientsServices = {
       });
   })
   ,
-  setClient: (bodyJSON) => new Promise((resolve, reject) => {
+    setClient: (bodyJSON) => new Promise((resolve, reject) => {
     API.post(
-      ENTRYPOINTS.SET_CLIENT_AND_WATER_CONNECTION, 
+      ENTRYPOINTS.SET_CLIENT_AND_WATER_CONNECTION,
       bodyJSON,
       {
         headers: {
-          'Content-Type' : 'application/json'
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -88,8 +88,9 @@ const clientsServices = {
       })
       .catch((err) => {
         console.log(err)
-        reject('Asegurese de ingresar todos los datos obligatorios al formulario');
-      })      
+        reject('Error al guardar el cliente');
+        // reject('Asegurese de ingresar todos los datos obligatorios al formulario');
+      })
   }),
   uptdateClient: (bodyJSON, idClient) => new Promise((resolve, reject) => {
     API.put(
@@ -97,7 +98,7 @@ const clientsServices = {
       bodyJSON,
       {
         headers: {
-          'Content-Type' : 'application/json'
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -115,7 +116,7 @@ const clientsServices = {
       bodyJSON,
       {
         headers: {
-          'Content-Type' : 'application/json'
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -152,7 +153,7 @@ const clientsServices = {
   getWaterConnection: (idWaterConnection) => new Promise((resolve, reject) => {
     API.get(
       ENTRYPOINTS.LIST_WATER_CONNECTIONS + idWaterConnection,
-      )
+    )
       .then((res) => {
         resolve(res.data);
       })
@@ -167,7 +168,7 @@ const clientsServices = {
       bodyJSON,
       {
         headers: {
-          'Content-Type' : 'application/json'
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -178,6 +179,40 @@ const clientsServices = {
         console.log(err);
         reject('Al crear el reporte');
       });
+  }),
+  getTransactions: (dateStart, dateEnd) => {
+    return new Promise((resolve, reject) => {
+      API.get(
+        ENTRYPOINTS.TRANSACTIONS_RANGE + `?dateStart=${dateStart}&dateEnd=${dateEnd}`,
+      ).then((res) => {
+        resolve(res.data);
+      }).catch((err) => {
+        console.log(err);
+        reject('Error al obtener los datos');
+      });
+    });
+  },
+  setDebt: (bodyJSON, idTimeConnection) => new Promise((resolve, reject) => {
+    API.post(
+      ENTRYPOINTS.DEBTS + idTimeConnection,
+      bodyJSON,
+      { headers: { 'Content-Type': 'application/json' } }
+    ).then((res) => {
+      resolve(res);
+    }).catch((err) => {
+      console.log(err);
+      reject('Error al crear el reporte');
+    })
+  }),
+  getColonias: () => new Promise((resolve, reject) => {
+    API.get(
+      ENTRYPOINTS.COLONIAS,
+    ).then((res) => {
+      resolve(res.data);
+    }).catch((err) => {
+      console.log(err);
+      reject('Error al obtener los datos');
+    });
   }),
 };
 

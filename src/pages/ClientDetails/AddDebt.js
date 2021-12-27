@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Alert from '../../components/Alert';
 import clientsServices from '../../services/waterAPI/clientsService';
 import { typeClient } from '../../services/waterAPI/contansts'
-import AutoComplete from '../../components/AutoComplete';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import PickerAddDebt from './PickerAddDebt'
 import {
   FormControl,
   Button,
@@ -20,14 +20,6 @@ import {
   Typography,
   Divider,
 } from '@material-ui/core';
-
-const initialState = {
-  name: '',
-  lastName: '',
-  disabled: 0,
-  idTypeClient: typeClient.HIDRANTE,
-  idWaterConnection: null,
-}
 
 const useStyles = makeStyles({
   root: {
@@ -65,16 +57,23 @@ const useStyles = makeStyles({
   }
 });
 
+
 const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaymentsToPay, handleRefresh }) => {
-  // console.log({ idClient })
-  console.log({ listPaymentsToPay })
+  const initialState = {
+    idTimeConnection: idTimeConnection,
+    idTypeDebts: 3,
+    price: 0,
+    note: '',
+    dateToPay: moment()
+  }
   const [isOpen, setIsOpen] = useState(false);
+  const [date, setDate] = useState(moment());
+  const [formData, setFormData] = useState(initialState)
   const [error, setError] = useState('');
-  // const [newWaterConnection, setNeWaterConnection] = useState();
-  // const [clientDataEdited, setClientDataEdited] = useState(personalInformation);
-
+  console.log({formData})
+  
   const classes = useStyles();
-
+  
   const handleDialog = () => setIsOpen(isOpen => {
     if (isOpen) {
       setError('')
@@ -82,30 +81,25 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
     return !isOpen;
   });
 
-  const handleSubmit = (idTimeConnection, listPayments) => {
-    //order array by date
-    const newListPayments = listPayments.sort((a, b) => {
-      return a.order - b.order;
-    });
-
-    const report = {
-      idTimeConnection,
-      idTypeReport: 1,
-      dateReport: moment().format('YYYY-MM-DD hh:mm:ss'),
-      transactionsArray: newListPayments
-    }
-    clientsServices.setReport(report)
+  const handleSubmit = (bodyJSON, idTimeConnection) => {
+    console.log({ bodyJSON, idTimeConnection })
+    clientsServices.setDebt(bodyJSON, idTimeConnection)
       .then(res => {
-        console.log({ res });
-        toast.success('Pago agregado con éxito', { duration: 5000 });
-        handleRefresh();
-        handleDialog();
+        if (res.status === 200) {
+          handleRefresh();
+          handleDialog();
+          toast.success('Se ha agregado la multa', { duration: 5000 });
+        };
       })
-      .catch(err => {
-        console.log({ err });
-        setError(err.error);
-      })
+    .catch(err => {
+      setError(err.error);
+    })
   }
+
+  const handleInputChange = (event) => {
+    const { value, name } = event.target;
+    setFormData((formData) => ({ ...formData, [name]: value }));
+  };
 
   return (
     <div>
@@ -124,34 +118,54 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
           color='primary'
           onClick={handleDialog}
         >
-          Cobro de agua
+          Agregar multa
         </Button>
       </div>
       <Dialog maxWidth='sm' fullWidth open={isOpen} onClose={handleDialog} aria-labelledby="form-dialog-title">
-        <div style={{ padding: '25px' }}>
-          <Typography style={{ padding: '20px' }} variant='h5' align='center'>
-            Cobro de agua
+      <div style={{padding: '25px'}}>
+          <Typography style={{padding: '20px'}} variant='h5' align='center'>
+            Agregar multa
           </Typography>
           <DialogContent>
-            <DialogContentText style={{ color: 'black', fontSize: 20 }}>
-              Numero de pagos: {listPaymentsToPay.length}
-            </DialogContentText>
-            <DialogContentText style={{ color: 'black', fontSize: 20 }}>
-              Total a pagar: ${listPaymentsToPay.reduce((total, current) => total + current.price, 0)}
-            </DialogContentText>
-            <Alert message='' isError error={error} isOpen={error} typeAlert='error' />
+            <TextField
+              // error
+              required
+              onChange={handleInputChange}
+              name='price'
+              value={formData.price}
+              autoFocus
+              variant='outlined'
+              margin="dense"
+              label="Cantidad"
+              type="number"
+              fullWidth
+            />
+            <TextField
+              onChange={handleInputChange}
+              required
+              value={formData.note}
+              name='note'
+              variant='outlined'
+              margin="dense"
+              label="Nota"
+              type="note"
+              fullWidth
+            />
+            <FormControl fullWidth size='small' variant="outlined" margin='dense'>
+              <PickerAddDebt setDate={setDate} date={date}/>
+            </FormControl>
+            <Alert message='' isError error={error} isOpen={error} typeAlert='error'/>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleDialog} color="secondary" variant='contained'>
               Cancel
             </Button>
             <Button
-              onClick={() => handleSubmit(idTimeConnection, listPaymentsToPay)}
+              onClick={() => handleSubmit({...formData, dateToPay: moment(date).format('YYYY-MM-DD HH:mm:ss')}, idTimeConnection)}
               color="primary"
               variant='contained'
-              disabled={listPaymentsToPay.length === 0}
             >
-              Aceptar
+              Agregar
             </Button>
           </DialogActions>
         </div>

@@ -53,7 +53,7 @@ const ClientDetails = () => {
             >
               <RefreshIcon />
             </Button>
-            <ClientCard clientData={client} />
+            <ClientCard clientData={client} handleRefresh={handleRefresh}/>
           </div>
         </div>
       }

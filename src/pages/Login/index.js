@@ -41,7 +41,7 @@ const MyCard = ({ error, setError, userData, setUserData }) => {
       })
       .then(() => {
         console.log('Sesión iniciada correctamente')
-        history.push('/home');
+        history.push('/clients');
       })
       .catch((err) => {
         console.log(err);

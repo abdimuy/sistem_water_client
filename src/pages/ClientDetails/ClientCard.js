@@ -10,6 +10,7 @@ import ChangeWaterConnection from './ChangeWaterConnection'
 import History from './History';
 import AddPayment from './AddPayment';
 import LatePayment from './LatePayment'
+import AddDebt from './AddDebt';
 import moment from 'moment'
 
 const useStyles = makeStyles({
@@ -49,7 +50,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function ClientInfo({ clientData }) {
+export default function ClientInfo({ clientData, handleRefresh }) {
   const {
     numberWaterConnection,
     id,
@@ -92,7 +93,7 @@ export default function ClientInfo({ clientData }) {
     dateConnection
   }
   const classes = useStyles();
-   const [listPaymentsToPay, setListPaymentsToPay] = useState([]);
+  const [listPaymentsToPay, setListPaymentsToPay] = useState([]);
 
   const listDetailsClient = [
     {
@@ -221,12 +222,27 @@ export default function ClientInfo({ clientData }) {
         </Typography>
         <Divider className={classes.divider} variant='fullWidth' />
         <CardContent>
-          {latePayments && <LatePayment latePayments={latePayments} setListPaymentsToPay={setListPaymentsToPay} />}
+          {latePayments
+            &&
+            <LatePayment
+              latePayments={latePayments}
+              setListPaymentsToPay={setListPaymentsToPay}
+            />
+          }
 
         </CardContent>
         <Divider className={classes.divider} variant='fullWidth' />
         <CardActions className={classes.cardAction}>
-          <AddPayment idTimeConnection={idTimeConnection} listPaymentsToPay={listPaymentsToPay}/>
+          <AddDebt
+            idTimeConnection={idTimeConnection}
+            listPaymentsToPay={listPaymentsToPay}
+            handleRefresh={handleRefresh}
+          />
+          <AddPayment
+            idTimeConnection={idTimeConnection}
+            listPaymentsToPay={listPaymentsToPay}
+            handleRefresh={handleRefresh}
+          />
         </CardActions>
       </Card>
     </>

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import moment from 'moment';
 import AddIcon from '@material-ui/icons/Add';
 import clientsServices from '../../services/waterAPI/clientsService';
 import { typeClient } from '../../services/waterAPI/contansts'
 import Alert from '../../components/Alert';
+import toast from 'react-hot-toast'
 import {
   FormControl,
   Button,
@@ -26,20 +27,24 @@ const initialState = {
   disabled: 0,
   street: '',
   houseNumber: '',
-  colonia: '',
+  idColonia: '',
   reference: '',
   idTypeClient: typeClient.PRINCIPAL,
   dateConnection: moment().format('YYYY-MM-DDTHH:mm:ss'),
-  dateInitPayment: moment().format('YYYY-MM-DDTHH:mm:ss')
+  dateStartPayment: moment().format('YYYY-MM-DDTHH:mm:ss'),
+  dateInitTime: moment().format('YYYY-MM-DDTHH:mm:ss'),
+  timeConnectionIsActive: 1
 }
 
 const AddClientForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState('')
-  
+  const [colonias, setColonias] = useState([]);
+  // console.log({ formData })
+
   const handleDialog = () => setIsOpen(isOpen => {
-    if(isOpen) {
+    if (isOpen) {
       setFormData(initialState);
       setError('')
     };
@@ -47,12 +52,13 @@ const AddClientForm = () => {
   });
 
   const handleSubmit = async (formDataSubmit) => {
-    console.log(formDataSubmit)
+    // console.log(formDataSubmit)
     try {
       await clientsServices.setClient(formDataSubmit)
+      toast.success('Cliente creado con exito', { duration: 5000 });
       console.log('Se ha subido con exito');
       setIsOpen(false);
-    } catch(err) {
+    } catch (err) {
       setError('Asegurece de ingresar todos los datos obligatorios al formulario')
       console.log(err);
     };
@@ -62,10 +68,21 @@ const AddClientForm = () => {
     const { value, name } = event.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
   };
- 
+
+  const getColonias = () => {
+    clientsServices.getColonias().then(res => {
+      console.log(res);
+      setColonias(res.body);
+    });
+  };
+
+  useEffect(() => {
+    getColonias();
+  }, [])
+
   return (
     <div>
-      <div style={{display: 'flex', gap: '8px'}}>
+      <div style={{ display: 'flex', gap: '8px' }}>
         <Button
           variant='contained'
           color='primary'
@@ -76,8 +93,8 @@ const AddClientForm = () => {
         </Button>
       </div>
       <Dialog maxWidth='sm' fullWidth open={isOpen} onClose={handleDialog} aria-labelledby="form-dialog-title">
-      <div style={{padding: '25px'}}>
-          <Typography style={{padding: '20px'}} variant='h5' align='center'>
+        <div style={{ padding: '25px' }}>
+          <Typography style={{ padding: '20px' }} variant='h5' align='center'>
             Agregar toma de agua
           </Typography>
           <DialogContent>
@@ -122,7 +139,7 @@ const AddClientForm = () => {
                 <MenuItem value={1}>Sí</MenuItem>
               </Select>
             </FormControl>
-            <Divider style={{margin: '25px 0'}} variant="fullWidth" />
+            <Divider style={{ margin: '25px 0' }} variant="fullWidth" />
             <DialogContentText>
               Información de la toma de agua
             </DialogContentText>
@@ -147,7 +164,7 @@ const AddClientForm = () => {
               type="text"
               fullWidth
             />
-            <TextField
+            {/* <TextField
               required
               onChange={handleInputChange}
               name='colonia'
@@ -157,7 +174,23 @@ const AddClientForm = () => {
               label="Colonia"
               type="colonia"
               fullWidth
-            />
+            /> */}
+            <FormControl fullWidth size='small' variant="outlined" margin='dense'>
+              <InputLabel id="demo-simple-select-outlined-label">Colonia</InputLabel>
+              <Select
+                onChange={handleInputChange}
+                name='idColonia'
+                autoWidth
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                label="Colonia"
+                defaultValue={0}
+              >
+                {colonias.map(colonia => (
+                  <MenuItem key={colonia.id} value={colonia.id}>{colonia.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
               onChange={handleInputChange}
               name='reference'
@@ -169,7 +202,7 @@ const AddClientForm = () => {
               fullWidth
             />
             <Picker onInputChange={handleInputChange} />
-            <Alert message='' isError error={error} isOpen={error} typeAlert='error'/>
+            <Alert message='' isError error={error} isOpen={error} typeAlert='error' />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleDialog} color="secondary" variant='contained'>
