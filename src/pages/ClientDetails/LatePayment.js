@@ -14,64 +14,66 @@ function createData(name, calories, efectivo) {
 }
 
 
-export default function BasicTable({ latePayments, setListPaymentsToPay }) {
+export default function BasicTable({ latePayments, setListPaymentsToPay, listPaymentsToPay }) {
 
-  const [rows, setRows] = useState([...latePayments]);
-  const [selected, setSelected] = React.useState([]);
+  // const [selected, setSelected] = React.useState([]);
 
-  useEffect(() => {
-    createRows();
-  }, []);
+  // useEffect(() => {
+  //   createRows();
+  // }, []);
 
-  useEffect(() => {
-    setListPaymentsToPay(selected);
-  }, [selected]);
+  // useEffect(() => {
+  //   setListPaymentsToPay(selected);
+  // }, [selected]);
+  // useEffect(() => { 
 
-  const createRows = () => {
-    const rows = [
-      createData(new Date().toLocaleString(), 500, 10),
-      createData(new Date().toLocaleString(), 237, 10),
-      createData(new Date().toLocaleString(), 262, 10),
-      createData(new Date().toLocaleString(), 305, 10),
-      createData(new Date().toLocaleString(), 356, 10),
-    ];
-    setRows(rows);
-  };
+  // }, [latePayments]);
+
+  // const createRows = () => {
+  //   const rows = [
+  //     createData(new Date().toLocaleString(), 500, 10),
+  //     createData(new Date().toLocaleString(), 237, 10),
+  //     createData(new Date().toLocaleString(), 262, 10),
+  //     createData(new Date().toLocaleString(), 305, 10),
+  //     createData(new Date().toLocaleString(), 356, 10),
+  //   ];
+  //   setRows(rows);
+  // };
 
   const selectTypePayment = {
     'Late Payment': 'Pago atrasado'
-  }
+  };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
+      const newSelecteds = latePayments.map((n) => n.name);
+      setListPaymentsToPay(newSelecteds);
       return;
     }
-    setSelected([]);
+    setListPaymentsToPay([]);
   };
 
   const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+    const selectedIndex = listPaymentsToPay.indexOf(name);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(listPaymentsToPay, name);
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(listPaymentsToPay.slice(1));
+    } else if (selectedIndex === listPaymentsToPay.length - 1) {
+      newSelected = newSelected.concat(listPaymentsToPay.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        listPaymentsToPay.slice(0, selectedIndex),
+        listPaymentsToPay.slice(selectedIndex + 1),
       );
     }
 
-    setSelected(newSelected);
+    setListPaymentsToPay(newSelected);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (name) => listPaymentsToPay.indexOf(name) !== -1;
 
   return (
     <TableContainer component={Paper}>
@@ -91,7 +93,9 @@ export default function BasicTable({ latePayments, setListPaymentsToPay }) {
             </TableCell>
             <TableCell>Fecha</TableCell>
             <TableCell align="right">Cantidad</TableCell>
+            <TableCell align='right'>Detalles</TableCell>
             <TableCell align="right">Tipo de pago</TableCell>
+            <TableCell align="right">Estado</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -102,7 +106,7 @@ export default function BasicTable({ latePayments, setListPaymentsToPay }) {
               onClick={(event) => handleClick(event, row)}
               role="checkbox"
               selected={isItemSelected}
-              key={row.date}
+              key={row.date + row.price}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell padding="checkbox">
@@ -118,6 +122,8 @@ export default function BasicTable({ latePayments, setListPaymentsToPay }) {
                 {moment(row.date).format('DD/MM/YYYY')}
               </TableCell>
               <TableCell align="right">${row.price}</TableCell>
+              <TableCell align="right">{row.note}</TableCell>
+              <TableCell align='right'>{row.name}</TableCell>
               <TableCell align="right">{row.typePayment}</TableCell>
             </TableRow>
           })}

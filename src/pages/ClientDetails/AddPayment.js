@@ -65,7 +65,7 @@ const useStyles = makeStyles({
   }
 });
 
-const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaymentsToPay, handleRefresh }) => {
+const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaymentsToPay, handleRefresh, setListPaymentsToPay }) => {
   // console.log({ idClient })
   console.log({ listPaymentsToPay })
   const [isOpen, setIsOpen] = useState(false);
@@ -97,14 +97,29 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
     clientsServices.setReport(report)
       .then(res => {
         console.log({ res });
+        // const ID_REPORT = res.data.body.idReport;
         toast.success('Pago agregado con éxito', { duration: 5000 });
+        setListPaymentsToPay([])
         handleRefresh();
         handleDialog();
+        handlePrint(res.data.body.insertId);
       })
       .catch(err => {
         console.log({ err });
         setError(err.error);
-      })
+      });
+  };
+
+  const handlePrint = (idReport) => {
+    console.log({ idReport })
+    let win = window.open('http://localhost:3000/report_pdf/' + idReport, '_blank');
+    if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+    } else {
+      //Browser has blocked it
+      console.log('Please allow popups for this website');
+    }
   }
 
   return (

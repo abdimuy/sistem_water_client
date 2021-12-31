@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -94,6 +94,14 @@ export default function ClientInfo({ clientData, handleRefresh }) {
   }
   const classes = useStyles();
   const [listPaymentsToPay, setListPaymentsToPay] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    setTotal(0)
+    listPaymentsToPay.forEach((payment) => {
+      setTotal(total => total + payment.price);
+    })
+  }, [listPaymentsToPay])
 
   const listDetailsClient = [
     {
@@ -210,6 +218,28 @@ export default function ClientInfo({ clientData, handleRefresh }) {
           {/* <AddPayment /> */}
         </CardActions>
       </Card>
+      {total > 0 &&
+        <Card className={classes.root} variant='elevation' style={{ padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+          <Typography
+            align='left'
+            // component='h2'
+            // variant='subtitle1'
+            color='textPrimary'
+            className={classes.itemListLabel}
+          >
+            Numero de pagos: {listPaymentsToPay.length}
+          </Typography>
+          <Typography
+            align='left'
+            // component='h2'
+            // variant='subtitle1'
+            color='textPrimary'
+            className={classes.itemListLabel}
+          >
+            Total a pagar: ${total}
+          </Typography>
+        </Card>
+      }
       <Card variant='elevation' className={classes.root}>
         <Typography
           align='left'
@@ -227,6 +257,7 @@ export default function ClientInfo({ clientData, handleRefresh }) {
             <LatePayment
               latePayments={latePayments}
               setListPaymentsToPay={setListPaymentsToPay}
+              listPaymentsToPay={listPaymentsToPay}
             />
           }
 
@@ -241,6 +272,7 @@ export default function ClientInfo({ clientData, handleRefresh }) {
           <AddPayment
             idTimeConnection={idTimeConnection}
             listPaymentsToPay={listPaymentsToPay}
+            setListPaymentsToPay={setListPaymentsToPay}
             handleRefresh={handleRefresh}
           />
         </CardActions>

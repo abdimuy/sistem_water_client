@@ -118,7 +118,7 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
           color='primary'
           onClick={handleDialog}
         >
-          Agregar multa
+          Agregar pago
         </Button>
       </div>
       <Dialog maxWidth='sm' fullWidth open={isOpen} onClose={handleDialog} aria-labelledby="form-dialog-title">
