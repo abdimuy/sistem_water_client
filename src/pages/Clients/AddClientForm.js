@@ -39,6 +39,7 @@ const initialState = {
 const AddClientForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState(initialState);
+  // console.log({formData})
   const [error, setError] = useState('')
   const [colonias, setColonias] = useState([]);
   // console.log({ formData })
@@ -59,7 +60,7 @@ const AddClientForm = () => {
       console.log('Se ha subido con exito');
       setIsOpen(false);
     } catch (err) {
-      setError('Asegurece de ingresar todos los datos obligatorios al formulario')
+      setError('Asegurece de ingresar todos los datos obligatorios al formulario');
       console.log(err);
     };
   };
@@ -82,7 +83,7 @@ const AddClientForm = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '8px' }}>
+      <div style={{ display: 'flex', gap: '8px', width: 'max-content'}}>
         <Button
           variant='contained'
           color='primary'

@@ -95,7 +95,7 @@ const AddHidranteForm = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '8px' }}>
+      <div style={{ display: 'flex', gap: '8px', width: 'max-content' }}>
         <Button
           variant='contained'
           color='primary'

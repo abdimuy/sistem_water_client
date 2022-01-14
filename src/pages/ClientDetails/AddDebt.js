@@ -70,7 +70,7 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
   const [date, setDate] = useState(moment());
   const [formData, setFormData] = useState(initialState)
   const [error, setError] = useState('');
-  console.log({formData})
+  // console.log({formData})
   
   const classes = useStyles();
   

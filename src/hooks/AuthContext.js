@@ -10,7 +10,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
 
 	const [currentUser, setCurrentUser] = useState(null);
-	console.log({ currentUser });
+	// console.log({ currentUser });
 	// const [rolesUser, setRolesUser] = useState();
 	const [loading, setLoading] = useState(true);
 

@@ -326,7 +326,7 @@ export default function EnhancedTable({ data }) {
                         {row.numberWaterConnection}
                       </TableCell>
                       <TableCell onClick={() => handleToClient(row.id)} align='left' component="th" scope="row" >
-                        {row.name}
+                        {row.name} {row.lastName}
                       </TableCell>
                       <TableCell onClick={handleToWaterConnection} align="left">{`${row.street} ${row.houseNumber}`}</TableCell>
                       <TableCell onClick={handleToWaterConnection} align="left">{row.reference}</TableCell>
