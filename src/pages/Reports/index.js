@@ -10,6 +10,7 @@ import moment from 'moment';
 const Reports = () => {
 
   const [dateRange, setDateRange] = useState([new Date(), new Date()]);
+  console.log({dateRange})
   const [transactions, setTransactions] = useState([]);
   const [total, setTotal] = useState(0);
   const [error, setError] = useState('');
@@ -21,7 +22,7 @@ const Reports = () => {
       moment(dateRange[1]).format('YYYY-MM-DD hh:mm:ss')
     )
       .then(res => {
-        console.log(res.body)
+        // console.log(res.body)
         setTransactions(res.body)
         setTotal(res.body.reduce((acc, cur) => acc + cur.amount, 0))
       })

@@ -9,6 +9,7 @@ import Reports from '../pages/Reports'
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import PrivateRoute from '../components/PrivateRoute';
+import Configuration from '../pages/Configuration';
 
 import { AuthProvider } from '../hooks/AuthContext';
 
@@ -26,6 +27,7 @@ function App() {
               <PrivateRoute exact path='/clients/:id' component={ClientDetails} />
               <PrivateRoute exact path='/cobro' component={Cobro}/>
               <PrivateRoute exact path='/reports' component={Reports}/>
+              <PrivateRoute exact path='/configuration' component={Configuration} />
             </Switch>
           </Drawer>
         </BrowserRouter>

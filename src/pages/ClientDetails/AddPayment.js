@@ -1,24 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '../../components/Alert';
 import clientsServices from '../../services/waterAPI/clientsService';
 import { typeClient } from '../../services/waterAPI/contansts'
-import AutoComplete from '../../components/AutoComplete';
 import toast from 'react-hot-toast';
 import moment from 'moment';
 import {
-  FormControl,
   Button,
-  TextField,
-  InputLabel,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  Select,
-  MenuItem,
   Typography,
-  Divider,
 } from '@material-ui/core';
 
 const initialState = {
@@ -66,12 +59,8 @@ const useStyles = makeStyles({
 });
 
 const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaymentsToPay, handleRefresh, setListPaymentsToPay }) => {
-  // console.log({ idClient })
-  console.log({ listPaymentsToPay })
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState('');
-  // const [newWaterConnection, setNeWaterConnection] = useState();
-  // const [clientDataEdited, setClientDataEdited] = useState(personalInformation);
 
   const classes = useStyles();
 
@@ -83,7 +72,6 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
   });
 
   const handleSubmit = (idTimeConnection, listPayments) => {
-    //order array by date
     const newListPayments = listPayments.sort((a, b) => {
       return a.order - b.order;
     });
@@ -97,7 +85,6 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
     clientsServices.setReport(report)
       .then(res => {
         console.log({ res });
-        // const ID_REPORT = res.data.body.idReport;
         toast.success('Pago agregado con éxito', { duration: 5000 });
         setListPaymentsToPay([])
         handleRefresh();
@@ -114,10 +101,8 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
     console.log({ idReport })
     let win = window.open('http://localhost:3000/report_pdf/' + idReport, '_blank');
     if (win) {
-      //Browser has allowed it to be opened
       win.focus();
     } else {
-      //Browser has blocked it
       console.log('Please allow popups for this website');
     }
   }
@@ -125,14 +110,6 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
   return (
     <div>
       <div style={{ display: 'flex', gap: '8px' }}>
-        {/* <Button
-          variant='contained'
-          color='primary'
-          onClick={handleDialog}
-          startIcon={<AddIcon />}
-        >
-          Agregar hidrante
-        </Button> */}
         <Button
           size="small"
           variant='outlined'

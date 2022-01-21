@@ -214,6 +214,52 @@ const clientsServices = {
       reject('Error al obtener los datos');
     });
   }),
+  getSigning: (id) => new Promise ((resolve, reject) => {
+    API.get(
+      ENTRYPOINTS.SIGNING_NAME + id,
+    ).then((res) => {
+      resolve(res.data);
+    }).catch((err) => {
+      console.log(err);
+      reject('Error al obtener los datos');
+    });
+  }),
+  updateSigningName: (bodyJSON, id) => new Promise((resolve, reject) => {
+    API.put(
+      ENTRYPOINTS.SIGNING_NAME + id,
+      bodyJSON,
+      { headers: { 'Content-Type': 'application/json' } }
+    ).then((res) => {
+      resolve(res);
+    }).catch((err) => {
+      console.log(err);
+      reject('Error al actualizar el nombre');
+    })
+  }),
+  updateSigningImage1: (formData) => new Promise((resolve, reject) => {
+    API.post(
+      ENTRYPOINTS.FIRST_SIGNING,
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    ).then((res) => {
+      resolve(res);
+    }).catch((err) => {
+      console.log(err);
+      reject('Error al actualizar la imagen');
+    })
+  }),
+  updateSigningImage2: (formData) => new Promise((resolve, reject) => {
+    API.post(
+      ENTRYPOINTS.SECOND_SIGNING,
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    ).then((res) => {
+      resolve(res);
+    }).catch((err) => {
+      console.log(err);
+      reject('Error al actualizar la imagen');
+    })
+  })
 };
 
 export default clientsServices;

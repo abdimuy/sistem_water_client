@@ -1,4 +1,5 @@
 const entrypoints = {
+  BASE_URL: 'http://localhost:3000/',
   REGISTER: 'register/',
   LIST_CLIENTS: 'clients/',
   GET_CLIENT: 'clients/',
@@ -15,6 +16,9 @@ const entrypoints = {
   TRANSACTIONS_RANGE: 'transactions/range/',
   DEBTS: 'debs/',
   COLONIAS: 'colonias/',
+  FIRST_SIGNING: 'report_pdf/signing_image_1',
+  SECOND_SIGNING: 'report_pdf/signing_image_2',
+  SIGNING_NAME: 'report_pdf/signing_name/',
 }
 
 export default entrypoints;

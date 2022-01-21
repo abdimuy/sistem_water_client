@@ -107,9 +107,9 @@ export default function MiniDrawer({ children }) {
       goTo: '/reports'
     },
     {
-      label: 'Otros',
+      label: 'Configuraciones',
       icon: <AssignmentIcon />,
-      goTo: '/cobro'
+      goTo: '/configuration'
     },
   ];
 

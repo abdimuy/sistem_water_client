@@ -124,7 +124,7 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
       <Dialog maxWidth='sm' fullWidth open={isOpen} onClose={handleDialog} aria-labelledby="form-dialog-title">
       <div style={{padding: '25px'}}>
           <Typography style={{padding: '20px'}} variant='h5' align='center'>
-            Agregar multa
+            Agregar pago
           </Typography>
           <DialogContent>
             <TextField
