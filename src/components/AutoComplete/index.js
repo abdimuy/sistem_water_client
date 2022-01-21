@@ -6,6 +6,7 @@ import clientsServices from '../../services/waterAPI/clientsService';
 export default function ComboBox({ setAutocompleteValue, autoCompleteValue, idWaterConnection, listWaterConnectionsWithourClient }) {
 
   // const [autoCompleteValue, setAutoCompleteValue] = useState()
+
   console.log({listWaterConnectionsWithourClient})
   // const [listWaterConnections, setWaterConnections] = useState(listWaterConnectionsWithourClient || []);
 
@@ -41,7 +42,7 @@ export default function ComboBox({ setAutocompleteValue, autoCompleteValue, idWa
       size='small'
       id="combo-box-demo"
       options={listWaterConnectionsWithourClient}
-      getOptionLabel={(option) => `${handleExistValue(option.id)} - ${handleExistValue(option.street)} ${handleExistValue(option.houseNumber)} ${handleExistValue(option.colonia)} - ${handleExistValue(option.reference)}`}
+      getOptionLabel={(option) => `${handleExistValue(option.numberWaterConnection)} - ${handleExistValue(option.name)} ${handleExistValue(option.lastName)} - ${handleExistValue(option.street)} ${handleExistValue(option.houseNumber)} ${handleExistValue(option.colonia)} - ${handleExistValue(option.reference)}`}
       // style={{ width: 300 }}
       fullWidth
       renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}

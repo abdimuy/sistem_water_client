@@ -78,7 +78,7 @@ const Clients = () => {
           handleSelectColonias={handleSelectColonias}
           selectedColonias={selectedColonias}
         />
-        <AddHidranteForm />
+        <AddHidranteForm clients={clients} />
         <AddClientForm />
         <Button
           color='primary'
