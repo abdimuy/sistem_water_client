@@ -33,7 +33,7 @@ const initialState = {
   active: 1
 }
 
-const AddHidranteForm = () => {
+const AddHidranteForm = ({clients}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState(initialState)
   const [waterConnections, setWaterConnections] = useState([]);
@@ -79,7 +79,7 @@ const AddHidranteForm = () => {
     if (selectedWaterConnection) {
       setFormData(formData => ({
         ...formData,
-        idWaterConnection: selectedWaterConnection.id
+        idWaterConnection: selectedWaterConnection.idWaterConnection
       }));
     };
   }, [selectedWaterConnection]);
@@ -159,7 +159,8 @@ const AddHidranteForm = () => {
               Elija una toma de agua
             </DialogContentText>
             <AutoComplete
-              listWaterConnectionsWithourClient={waterConnections}
+              // listWaterConnectionsWithourClient={waterConnections}
+              listWaterConnectionsWithourClient={clients}
               setAutocompleteValue={setSelectedWaterConnection}
               autoCompleteValue={selectedWaterConnection}
             />

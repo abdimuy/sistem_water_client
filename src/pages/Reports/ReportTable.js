@@ -30,7 +30,7 @@ export default function ReportTable({ transactions, total }) {
         <TableBody>
           {transactions.map((row) => {
             return <RowTransaction
-              key={row.numberWaterConnection + row.clientName + row.dateCreate + row.amount + row.typeClient}
+              key={row.numberWaterConnection + row.clientName + row.dateCreate + row.amount + row.typeClient + row.id}
               row={row}
             />
           })}
