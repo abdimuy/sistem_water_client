@@ -7,7 +7,12 @@ export default function ComboBox({ setAutocompleteValue, autoCompleteValue, idWa
   console.log(autoCompleteValue)
 
   // const [autoCompleteValue, setAutoCompleteValue] = useState()
+<<<<<<< HEAD
   // console.log({listWaterConnectionsWithourClient})
+=======
+
+  console.log({listWaterConnectionsWithourClient})
+>>>>>>> ca2731bc30780c2e1613b17df379f1d5b82c77ec
   // const [listWaterConnections, setWaterConnections] = useState(listWaterConnectionsWithourClient || []);
 
   // const getListWaterConnections = async (setFunction) => {
