@@ -41,7 +41,6 @@ const AddHidranteForm = ({clients}) => {
   const [error, setError] = useState('');
 
   const handleSubmit = async (formDataSubmit) => {
-    console.log(formDataSubmit);
     try {
       await clientsServices.setHidrante(formDataSubmit);
       console.log('Se ha subido con exito');
@@ -67,7 +66,6 @@ const AddHidranteForm = ({clients}) => {
   const handleGetWaterConnections = () => {
     clientsServices.getWaterConnections()
       .then(res => {
-        console.log(res.body);
         setWaterConnections(res.body);
       })
       .catch(err => {

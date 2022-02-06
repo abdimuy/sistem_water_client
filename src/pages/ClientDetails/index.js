@@ -14,7 +14,6 @@ const ClientDetails = () => {
   const handleGetClient = (idClient, saveClient) => {
     clientsServices.getClient(idClient)
       .then((client) => {
-        console.log({client});
         saveClient(client.body[0]);
       })
       .catch((err) => {

@@ -69,9 +69,9 @@ export default function ClientInfo({ clientData, handleRefresh }) {
     dateConnection,
     latePayments,
     transactions,
-    idTimeConnection
+    idTimeConnection,
+    hidrantes
   } = clientData;
-  console.log({ latePayments });
 
   const personalInformation = {
     id,
@@ -83,15 +83,6 @@ export default function ClientInfo({ clientData, handleRefresh }) {
     idWaterConnection
   };
 
-  const dataWaterConnection = {
-    numberWaterConnection,
-    idWaterConnection,
-    street,
-    houseNumber,
-    colonia,
-    reference,
-    dateConnection
-  }
   const classes = useStyles();
   const [listPaymentsToPay, setListPaymentsToPay] = useState([]);
   const [total, setTotal] = useState(0);
@@ -199,6 +190,7 @@ export default function ClientInfo({ clientData, handleRefresh }) {
           <ChangeWaterConnection dataWaterConnection={listWaterConnection} idClient={id} />
         </CardActions>
       </Card>
+      <ListHidrantes hidrantes={hidrantes} />
       <Card variant='elevation' className={classes.root}>
         <Typography
           align='left'
@@ -279,4 +271,73 @@ export default function ClientInfo({ clientData, handleRefresh }) {
       </Card>
     </>
   );
+};
+
+const ListHidrantes = ({ hidrantes }) => {
+  const listDetailsClient = ({ name, lastName, clientLevel, typeClient, disabled }) => {
+    return [
+      {
+        label: 'Nombre',
+        text: `${name} ${lastName}`
+      },
+      {
+        label: 'Categoria del cliente',
+        text: clientLevel
+      },
+      {
+        label: 'Tipo de cliente',
+        text: typeClient
+      },
+      {
+        label: 'Incapacidad',
+        text: disabled ? 'Discapacitado' : 'Sin discapacidad',
+      }
+    ];
+  }
+
+  const classes = useStyles();
+
+
+  return (
+    <Card variant='elevation' className={classes.root}>
+      <Typography
+        align='left'
+        // component='h2'
+        // variant='subtitle1'
+        color='primary'
+        className={classes.title}
+      >
+        Hidrantes
+      </Typography>
+      {
+        hidrantes.length > 0 && hidrantes.map((hidrante) => (
+          <>
+            <Divider className={classes.divider} variant='fullWidth' />
+            <CardContent>
+              {listDetailsClient({
+                name: hidrante?.name,
+                lastName: hidrante?.lastName,
+                clientLevel: hidrante?.clientLevel,
+                typeClient: hidrante?.typeClient,
+                disabled: hidrante?.disabled
+              }).map((item) => (
+                <div className={classes.itemList}>
+                  <Typography align='left' className={classes.itemListLabel}>
+                    {item.label}:
+                  </Typography>
+                  <Typography align='left' className={classes.text}>
+                    {item.text}
+                  </Typography>
+                </div>
+              ))}
+            </CardContent>
+            <Divider className={classes.divider} variant='fullWidth' />
+            <CardActions className={classes.cardAction}>
+              {/* <EditClient personalInformation={personalInformation} /> */}
+            </CardActions>
+          </>
+        ))
+      }
+    </Card>
+  )
 }
