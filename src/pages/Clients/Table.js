@@ -24,11 +24,15 @@ import { useHistory } from 'react-router-dom';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
+    // console.log('-1')
     return -1;
   }
   if (b[orderBy] > a[orderBy]) {
+    // console.log('1')
     return 1;
   }
+  // console.log(`${a[orderBy]} ${b[orderBy]}`)
+  // console.log('0')
   return 0;
 }
 
@@ -53,9 +57,9 @@ const headCells = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Nombre' },
   { id: 'address', numeric: false, disablePadding: true, label: 'Domicilio' },
   { id: 'reference', numeric: false, disablePadding: false, label: 'Referencias' },
-  { id: 'date', numeric: false, disablePadding: false, label: 'Fecha de conexión' },
+  { id: 'dateConnection', numeric: false, disablePadding: false, label: 'Fecha de conexión' },
   { id: 'typeClient', numeric: false, disablePadding: false, label: 'Tipo de cliente' },
-  { id: 'Pagos atrasados', numeric: true, disablePadding: true, label: 'Pagos atrasados' },
+  { id: 'Pagos', numeric: true, disablePadding: false, label: 'Pagos atrasados' },
 ];
 
 function EnhancedTableHead(props) {

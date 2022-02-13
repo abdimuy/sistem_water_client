@@ -10,7 +10,6 @@ export function useAuth() {
 export function AuthProvider({ children }) {
 
 	const [currentUser, setCurrentUser] = useState(null);
-	// console.log({ currentUser });
 	// const [rolesUser, setRolesUser] = useState();
 	const [loading, setLoading] = useState(true);
 
@@ -40,7 +39,7 @@ export function AuthProvider({ children }) {
 	const handleIsAuthenticated = () => {
 		return new Promise((resolve, reject) => {
 			resolve(clientsServices.isAuthenticated().then(res => {
-				setCurrentUser(res);
+				setCurrentUser(res.data.message[0]);
 				setLoading(false);
 			})
 				.catch(err => {

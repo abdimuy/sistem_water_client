@@ -4,6 +4,7 @@ import Alert from '../../components/Alert';
 import clientsServices from '../../services/waterAPI/clientsService';
 import { typeClient } from '../../services/waterAPI/contansts'
 import toast from 'react-hot-toast';
+import { useAuth } from '../../hooks/AuthContext';
 import moment from 'moment';
 import {
   Button,
@@ -61,6 +62,7 @@ const useStyles = makeStyles({
 const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaymentsToPay, handleRefresh, setListPaymentsToPay }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState('');
+  const { currentUser } = useAuth();
 
   const classes = useStyles();
 
@@ -80,7 +82,8 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
       idTimeConnection,
       idTypeReport: 1,
       dateReport: moment().format('YYYY-MM-DD hh:mm:ss'),
-      transactionsArray: newListPayments
+      transactionsArray: newListPayments,
+      idUser: currentUser?.id
     }
     clientsServices.setReport(report)
       .then(res => {
