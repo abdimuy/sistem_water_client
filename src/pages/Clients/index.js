@@ -7,6 +7,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import AddHidranteForm from './AddHidrante';
 import Search from './Search';
 import Filters from './FilterTemporary';
+import { useHistory } from 'react-router-dom';
 
 const Clients = () => {
 
@@ -16,6 +17,8 @@ const Clients = () => {
   const [search, setSearch] = useState('');
   const [colonias, setColonias] = useState([]);
   const [selectedColonias, setSelectedColonias] = useState({});
+
+  const history = useHistory();
 
   const getClients = async () => {
     try {
@@ -78,6 +81,14 @@ const Clients = () => {
           handleSelectColonias={handleSelectColonias}
           selectedColonias={selectedColonias}
         />
+        <Button
+          style={{ padding: '0 15px' }}
+          onClick={() => history.push('hidrantes')}
+          variant='contained'
+          color='primary'
+        >
+          Hidrantes
+        </Button>
         <AddHidranteForm clients={clients}/>
         <AddClientForm />
         <Button

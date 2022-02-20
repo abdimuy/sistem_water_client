@@ -73,7 +73,7 @@ const clientsServices = {
       });
   })
   ,
-    setClient: (bodyJSON) => new Promise((resolve, reject) => {
+  setClient: (bodyJSON) => new Promise((resolve, reject) => {
     API.post(
       ENTRYPOINTS.SET_CLIENT_AND_WATER_CONNECTION,
       bodyJSON,
@@ -108,6 +108,26 @@ const clientsServices = {
       .catch((err) => {
         console.log(err);
         reject('Error al editar el cliente');
+      })
+  }),
+  getHidrantes: () => new Promise((resolve, reject) => {
+    API.get(ENTRYPOINTS.GET_HIDRANTES)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject('Error al obtener los hidrantes');
+      })
+  }),
+  unsubscribeHidrante: (idHidrante) => new Promise((resolve, reject) => {
+    API.put(ENTRYPOINTS.UNSUBSCRIBE_HIDRANTE + idHidrante)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject('Error al desuscribir el hidrante');
       })
   }),
   setHidrante: (bodyJSON) => new Promise((resolve, reject) => {
@@ -214,7 +234,7 @@ const clientsServices = {
       reject('Error al obtener los datos');
     });
   }),
-  getSigning: (id) => new Promise ((resolve, reject) => {
+  getSigning: (id) => new Promise((resolve, reject) => {
     API.get(
       ENTRYPOINTS.SIGNING_NAME + id,
     ).then((res) => {

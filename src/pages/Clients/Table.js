@@ -59,7 +59,7 @@ const headCells = [
   { id: 'reference', numeric: false, disablePadding: false, label: 'Referencias' },
   { id: 'dateConnection', numeric: false, disablePadding: false, label: 'Fecha de conexión' },
   { id: 'typeClient', numeric: false, disablePadding: false, label: 'Tipo de cliente' },
-  { id: 'Pagos', numeric: true, disablePadding: false, label: 'Pagos atrasados' },
+  { id: 'totalLastPayments', numeric: true, disablePadding: false, label: 'Pagos atrasados' },
 ];
 
 function EnhancedTableHead(props) {
@@ -336,7 +336,7 @@ export default function EnhancedTable({ data }) {
                       <TableCell onClick={handleToWaterConnection} align="left">{row.reference}</TableCell>
                       <TableCell onClick={handleToWaterConnection} align="left">{moment(row.dateConnection).format('LL')}</TableCell>
                       <TableCell align="left">{row.typeClient}</TableCell>
-                      <TableCell align="left">{contarPagosPendiendes(row.latePayments)}</TableCell>
+                      <TableCell align="left">{row.totalLastPayments}</TableCell>
                     </TableRow>
                   );
                 })}

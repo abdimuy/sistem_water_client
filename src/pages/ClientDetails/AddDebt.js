@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '../../components/Alert';
 import clientsServices from '../../services/waterAPI/clientsService';
-import { typeClient } from '../../services/waterAPI/contansts'
 import toast from 'react-hot-toast';
 import moment from 'moment';
 import PickerAddDebt from './PickerAddDebt'

@@ -5,13 +5,14 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import EditClient from './EditClient';
-import { Divider } from '@material-ui/core';
+import { Button, Divider } from '@material-ui/core';
 import ChangeWaterConnection from './ChangeWaterConnection'
 import History from './History';
 import AddPayment from './AddPayment';
 import LatePayment from './LatePayment'
 import AddDebt from './AddDebt';
 import moment from 'moment'
+import UnsubscribeHidrante from './UnsubscribeHidrante';
 
 const useStyles = makeStyles({
   root: {
@@ -297,7 +298,6 @@ const ListHidrantes = ({ hidrantes }) => {
 
   const classes = useStyles();
 
-
   return (
     <Card variant='elevation' className={classes.root}>
       <Typography
@@ -334,6 +334,7 @@ const ListHidrantes = ({ hidrantes }) => {
             <Divider className={classes.divider} variant='fullWidth' />
             <CardActions className={classes.cardAction}>
               {/* <EditClient personalInformation={personalInformation} /> */}
+              <UnsubscribeHidrante idHidrante={hidrante.id}/>
             </CardActions>
           </>
         ))

@@ -10,6 +10,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import PrivateRoute from '../components/PrivateRoute';
 import Configuration from '../pages/Configuration';
+import Hidrantes from '../pages/Hidrantes';
 
 import { AuthProvider } from '../hooks/AuthContext';
 
@@ -28,6 +29,7 @@ function App() {
               <PrivateRoute exact path='/cobro' component={Cobro}/>
               <PrivateRoute exact path='/reports' component={Reports}/>
               <PrivateRoute exact path='/configuration' component={Configuration} />
+              <PrivateRoute exact path='/hidrantes' component={Hidrantes} />
             </Switch>
           </Drawer>
         </BrowserRouter>

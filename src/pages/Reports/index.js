@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ReportTable from './ReportTable';
 import clientServices from '../../services/waterAPI/clientsService'
 import { Chip } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import moment from 'moment';
 
 const Reports = () => {
@@ -18,8 +19,8 @@ const Reports = () => {
   const handleGetTrasactions = () => {
 
     clientServices.getTransactions(
-      moment(dateRange[0]).format('YYYY-MM-DD hh:mm:ss'),
-      moment(dateRange[1]).format('YYYY-MM-DD hh:mm:ss')
+      moment(dateRange[0]).format('YYYY-MM-DD HH:mm:ss'),
+      moment(dateRange[1]).format('YYYY-MM-DD HH:mm:ss')
     )
       .then(res => {
         // console.log(res.body)
@@ -74,7 +75,16 @@ const Reports = () => {
     }
   });
 
-  const classes = useStyles();
+  const handlePrint = (dateInit, dateEnd) => {
+    let win = window.open(`http://localhost:3000/transactions/reportTransactions?dateStart=${dateInit}&dateEnd=${dateEnd}`, '_blank');
+    if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+    } else {
+      //Browser has blocked it
+      alert('Please allow popups for this website');
+    }
+  }
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -92,6 +102,13 @@ const Reports = () => {
           value={dateRange}
         />
         <Chip size='medium' color='primary' label={`Total ingresos: $${total}`} style={{fontSize: 16, padding: '10px 15px'}}/>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => handlePrint(moment(dateRange[0]).format('YYYY-MM-DD HH:mm:ss'), moment(dateRange[1]).format('YYYY-MM-DD HH:mm:ss'))}
+        >
+          Imprimir reporte
+        </Button>
         <ReportTable transactions={transactions}/>
 
       </div>
