@@ -118,7 +118,6 @@ return (
             onChange={(e) => setImage(e.target.files[0])}
           >
           </input>
-          {/* <img src={`http://localhost:3000/report_pdf/signin_images_1`}/> */}
           <DialogTitle>Firma actual</DialogTitle>
           <img
             src={`${entrypoints.BASE_URL}${entrypoints.SECOND_SIGNING}`}

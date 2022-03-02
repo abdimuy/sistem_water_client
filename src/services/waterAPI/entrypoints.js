@@ -1,5 +1,5 @@
 const entrypoints = {
-  BASE_URL: 'http://localhost:3000/',
+  BASE_URL: 'http://137.184.181.164:3000/',
   REGISTER: 'register/',
   LIST_CLIENTS: 'clients/',
   GET_CLIENT: 'clients/',

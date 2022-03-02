@@ -7,14 +7,15 @@ import clientServices from '../../services/waterAPI/clientsService'
 import { Chip } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
+import entrypoints from '../../services/waterAPI/entrypoints';
 
 const Reports = () => {
 
   const [dateRange, setDateRange] = useState([new Date(), new Date()]);
-  console.log({dateRange})
   const [transactions, setTransactions] = useState([]);
   const [total, setTotal] = useState(0);
   const [error, setError] = useState('');
+  const { BASE_URL } = entrypoints;
 
   const handleGetTrasactions = () => {
 
@@ -34,7 +35,7 @@ const Reports = () => {
   };
 
   useEffect(() => {
-    if(dateRange !== null){
+    if (dateRange !== null) {
       handleGetTrasactions()
     }
   }, [dateRange]);
@@ -76,7 +77,7 @@ const Reports = () => {
   });
 
   const handlePrint = (dateInit, dateEnd) => {
-    let win = window.open(`http://localhost:3000/transactions/reportTransactions?dateStart=${dateInit}&dateEnd=${dateEnd}`, '_blank');
+    let win = window.open(`${BASE_URL}transactions/reportTransactions?dateStart=${dateInit}&dateEnd=${dateEnd}`, '_blank');
     if (win) {
       //Browser has allowed it to be opened
       win.focus();
@@ -101,7 +102,7 @@ const Reports = () => {
           onChange={setDateRange}
           value={dateRange}
         />
-        <Chip size='medium' color='primary' label={`Total ingresos: $${total}`} style={{fontSize: 16, padding: '10px 15px'}}/>
+        <Chip size='medium' color='primary' label={`Total ingresos: $${total}`} style={{ fontSize: 16, padding: '10px 15px' }} />
         <Button
           variant='contained'
           color='primary'
@@ -109,7 +110,7 @@ const Reports = () => {
         >
           Imprimir reporte
         </Button>
-        <ReportTable transactions={transactions}/>
+        <ReportTable transactions={transactions} />
 
       </div>
     </div>

@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import PrintIcon from '@material-ui/icons/Print';
 import moment from 'moment';
+import entrypoints from '../../services/waterAPI/entrypoints';
 
 function createData(name, calories, efectivo) {
   return { name, calories, efectivo };
@@ -17,15 +18,16 @@ function createData(name, calories, efectivo) {
 
 export default function BasicTable({ transactions }) {
 
-  const [rows, setRows] = useState([])
+  const [rows, setRows] = useState([]);
+  const { BASE_URL } = entrypoints;
 
-  useEffect(() => {
-    createRows()
-  }, []);
+    useEffect(() => {
+      createRows()
+    }, []);
 
   const handlePrint = (idReport) => {
     console.log({ idReport })
-    let win = window.open('http://localhost:3000/report_pdf/' + idReport, '_blank');
+    let win = window.open(BASE_URL + 'report_pdf/' + idReport, '_blank');
     if (win) {
       //Browser has allowed it to be opened
       win.focus();

@@ -10,11 +10,13 @@ import Alert from '../../components/Alert';
 import clientsServices from '../../services/waterAPI/clientsService';
 import { useAuth } from '../../hooks/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
+import entrypoints from '../../services/waterAPI/entrypoints';
 
 const MyCard = ({ error, setError, userData, setUserData }) => {
 
   const { handleIsAuthenticated } = useAuth();
   const history = useHistory();
+  const { BASE_URL } = entrypoints
 
   const formRef = useRef();
   const handleInputChange = (e) => {
@@ -58,7 +60,7 @@ const MyCard = ({ error, setError, userData, setUserData }) => {
       </Typography>
       <br />
       <br />
-      <form ref={formRef} action='http://localhost:3000/login' method='POST'>
+      <form ref={formRef} action={BASE_URL + 'login'} method='POST'>
         <TextField
           required
           onChange={handleInputChange}

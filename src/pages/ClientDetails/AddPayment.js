@@ -6,6 +6,7 @@ import { typeClient } from '../../services/waterAPI/contansts'
 import toast from 'react-hot-toast';
 import { useAuth } from '../../hooks/AuthContext';
 import moment from 'moment';
+import entrypoints from '../../services/waterAPI/entrypoints';
 import {
   Button,
   Dialog,
@@ -63,6 +64,7 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState('');
   const { currentUser } = useAuth();
+  const { BASE_URL } = entrypoints;
 
   const classes = useStyles();
 
@@ -102,7 +104,7 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
 
   const handlePrint = (idReport) => {
     console.log({ idReport })
-    let win = window.open('http://localhost:3000/report_pdf/' + idReport, '_blank');
+    let win = window.open(BASE_URL + 'report_pdf/' + idReport, '_blank');
     if (win) {
       win.focus();
     } else {
