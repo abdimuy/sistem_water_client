@@ -71,6 +71,16 @@ const clientsServices = {
         console.log(err);
         reject('Error al obtener el cliente');
       });
+  }),
+  getClientsWithoutTransactions: () => new Promise((resolve, reject) => {
+    API.get(ENTRYPOINTS.LIST_CLIENTS_WITHOUT_TRANSACTIONS)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject('Error al obtener los clientes sin transacciones');
+      });
   })
   ,
   setClient: (bodyJSON) => new Promise((resolve, reject) => {
@@ -197,7 +207,7 @@ const clientsServices = {
       })
       .catch((err) => {
         console.log(err);
-        reject('Al crear el reporte');
+        reject('Error al crear el reporte');
       });
   }),
   getTransactions: (dateStart, dateEnd) => {
@@ -279,6 +289,16 @@ const clientsServices = {
       console.log(err);
       reject('Error al actualizar la imagen');
     })
+  }),
+  getExpenseTracker: () => new Promise((resolve, reject) => {
+    API.get(
+      ENTRYPOINTS.EXPENSE_TRACKER,
+    ).then((res) => {
+      resolve(res.data);
+    }).catch((err) => {
+      console.log(err);
+      reject('Error al obtener los datos');
+    });
   })
 };
 

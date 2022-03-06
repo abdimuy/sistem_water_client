@@ -1,7 +1,9 @@
 const entrypoints = {
-  BASE_URL: 'http://137.184.181.164:3000/',
+  // BASE_URL: 'http://137.184.181.164:3000/',
+  BASE_URL: 'http://localhost:3000/',
   REGISTER: 'register/',
   LIST_CLIENTS: 'clients/',
+  LIST_CLIENTS_WITHOUT_TRANSACTIONS: 'clients/without_transactions/',
   GET_CLIENT: 'clients/',
   PUT_CLIENT: 'clients/',
   SET_CLIENT_AND_WATER_CONNECTION: 'client_and_water_connection/',
@@ -22,6 +24,7 @@ const entrypoints = {
   FIRST_SIGNING: 'report_pdf/signing_image_1',
   SECOND_SIGNING: 'report_pdf/signing_image_2',
   SIGNING_NAME: 'report_pdf/signing_name/',
+  EXPENSE_TRACKER: 'expense_traker/',
 }
 
 export default entrypoints;

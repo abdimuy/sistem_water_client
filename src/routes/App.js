@@ -11,6 +11,7 @@ import Register from '../pages/Register';
 import PrivateRoute from '../components/PrivateRoute';
 import Configuration from '../pages/Configuration';
 import Hidrantes from '../pages/Hidrantes';
+import ExpenseTracker from '../pages/ExpenseTracker';
 
 import { AuthProvider } from '../hooks/AuthContext';
 
@@ -26,10 +27,11 @@ function App() {
               <PrivateRoute exact path='/home' component={Home} />
               <PrivateRoute exact path='/clients' component={Clients} />
               <PrivateRoute exact path='/clients/:id' component={ClientDetails} />
-              <PrivateRoute exact path='/cobro' component={Cobro}/>
-              <PrivateRoute exact path='/reports' component={Reports}/>
+              <PrivateRoute exact path='/cobro' component={Cobro} />
+              <PrivateRoute exact path='/reports' component={Reports} />
               <PrivateRoute exact path='/configuration' component={Configuration} />
               <PrivateRoute exact path='/hidrantes' component={Hidrantes} />
+              <PrivateRoute excat path='/expense_tracker' component={ExpenseTracker} />
             </Switch>
           </Drawer>
         </BrowserRouter>

@@ -63,8 +63,10 @@ const useStyles = makeStyles({
 const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaymentsToPay, handleRefresh, setListPaymentsToPay }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
   const { BASE_URL } = entrypoints;
+  console.log(error);
 
   const classes = useStyles();
 
@@ -87,9 +89,9 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
       transactionsArray: newListPayments,
       idUser: currentUser?.id
     }
+    setLoading(true);
     clientsServices.setReport(report)
       .then(res => {
-        console.log({ res });
         toast.success('Pago agregado con éxito', { duration: 5000 });
         setListPaymentsToPay([])
         handleRefresh();
@@ -98,7 +100,10 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
       })
       .catch(err => {
         console.log({ err });
-        setError(err.error);
+        setError(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -146,11 +151,12 @@ const ChangeWaterConnection = ({ dataWaterConnection, idTimeConnection, listPaym
               onClick={() => handleSubmit(idTimeConnection, listPaymentsToPay)}
               color="primary"
               variant='contained'
-              disabled={listPaymentsToPay.length === 0}
+              disabled={listPaymentsToPay.length === 0 || loading}
             >
               Aceptar
             </Button>
           </DialogActions>
+          <Alert error={error} typeAlert='error' />
         </div>
       </Dialog>
     </div>

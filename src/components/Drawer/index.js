@@ -18,6 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 import { Toaster } from 'react-hot-toast';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
@@ -105,6 +106,11 @@ export default function MiniDrawer({ children }) {
       label: 'Reportes',
       icon: <AssignmentIcon />,
       goTo: '/reports'
+    },
+    {
+      label: 'Ingresos y egresos',
+      icon: <ImportExportIcon />,
+      goTo: '/expense_tracker'
     },
     {
       label: 'Configuraciones',
