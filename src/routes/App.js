@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Home from '../pages/Home';
 import Clients from '../pages/Clients';
 import Drawer from '../components/Drawer';
@@ -23,15 +23,16 @@ function App() {
           <Drawer>
             <Switch>
               <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <PrivateRoute exact path='/home' component={Home} />
-              <PrivateRoute exact path='/clients' component={Clients} />
-              <PrivateRoute exact path='/clients/:id' component={ClientDetails} />
-              <PrivateRoute exact path='/cobro' component={Cobro} />
-              <PrivateRoute exact path='/reports' component={Reports} />
-              <PrivateRoute exact path='/configuration' component={Configuration} />
-              <PrivateRoute exact path='/hidrantes' component={Hidrantes} />
-              <PrivateRoute excat path='/expense_tracker' component={ExpenseTracker} />
+              <Redirect exact from='/' to='/clients'  />
+              <PrivateRoute role={1} exact path="/register" component={Register} />
+              <PrivateRoute role={2} exact path='/home' component={Home} />
+              <PrivateRoute role={2} exact path='/clients' component={Clients} />
+              <PrivateRoute role={2} exact path='/clients/:id' component={ClientDetails} />
+              <PrivateRoute role={2} exact path='/cobro' component={Cobro} />
+              <PrivateRoute role={2} exact path='/reports' component={Reports} />
+              <PrivateRoute role={1} exact path='/configuration' component={Configuration} />
+              <PrivateRoute role={2} exact path='/hidrantes' component={Hidrantes} />
+              <PrivateRoute role={2} excat path='/expense_tracker' component={ExpenseTracker} />
             </Switch>
           </Drawer>
         </BrowserRouter>
